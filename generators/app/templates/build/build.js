@@ -2,7 +2,6 @@
 require('./check-versions')()
 require('shelljs/global')
 env.NODE_ENV = 'production'
-
 var path = require('path')
 var config = require('../config')
 var ora = require('ora')
@@ -18,7 +17,7 @@ console.log(
 var spinner = ora('building for production...')
 spinner.start()
 
-var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
+var assetsPath = path.join(config[config.moduleName+'build'].assetsRoot, config[config.moduleName+'build'].assetsSubDirectory)
 rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
 cp('-R', 'static/*', assetsPath)

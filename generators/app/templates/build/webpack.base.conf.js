@@ -1,34 +1,24 @@
 var path = require('path')
-var glob = require('glob')
 var config = require('../config')
 var utils = require('./utils')
+var glob = require('glob');
 var projectRoot = path.resolve(__dirname, '../')
-var moduleName = process.argv[2]
+var moduleName = process.argv[2];
+
 var env = process.env.NODE_ENV
 // check env & config/index.js to decide weither to enable CSS Sourcemaps for the
 // various preprocessor loaders added to vue-loader at the end of this file
-var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
-var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
+var cssSourceMapDev = (env === 'development' && config[config.moduleName+'dev'].cssSourceMap)
+var cssSourceMapProd = (env === 'production' && config[config.moduleName+'build'].productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
-
-function getEntry (globPath) {
-  var entries = {},
-    basename, tmp, pathname
-  glob.sync(globPath).forEach(function (entry) {
-    basename = path.basename(entry, path.extname(entry))
-    tmp = entry.split('/').splice(-3)
-    // pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
-    entries[basename] = entry
-  })
-  return entries
-}
-console.dir(getEntry(path.join(__dirname, '../src/modules/' + moduleName + 'Module/*.html')))
+var enrtys = getEntry(path.join(__dirname,'../src/modules/'+config.moduleName+'Module/*.js'))
+var htmlPath = getEntry(path.join(__dirname,'../src/modules/'+config.moduleName+'Module/*.html'))
 module.exports = {
-  htmlPath:getEntry(path.join(__dirname, '../src/modules/' + moduleName + 'Module/*.html')),
-  entry: getEntry(path.join(__dirname, '../src/modules/'+moduleName+'Module/*.js')),
+  htmlPath:htmlPath,
+  entry: enrtys,
   output: {
-    path: config.build.assetsRoot,
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
+    path: config[moduleName+'build'].assetsRoot,
+    publicPath: process.env.NODE_ENV === 'production' ? config[config.moduleName+'build'].assetsPublicPath : config[config.moduleName+'dev'].assetsPublicPath,
     filename: '[name].js'
   },
   resolve: {
@@ -37,9 +27,9 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.common.js',
       'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/common-components'),
-      'modules': path.resolve(__dirname, '../src/modules')
+      'commomcomponents': path.resolve(__dirname, '../src/commomcomponents'),
+      'modules':path.resolve(__dirname,'../src/modules'),
+      'vendor':path.resolve(__dirname,'../src/vendor')
     }
   },
   resolveLoader: {
@@ -87,4 +77,16 @@ module.exports = {
       })
     ]
   }
+}
+function getEntry(globPath) {
+  var entries = {},
+    basename, tmp, pathname;
+
+  glob.sync(globPath).forEach(function (entry) {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('/').splice(-3);
+    //pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
+    entries[basename] = entry;
+  });
+  return entries;
 }

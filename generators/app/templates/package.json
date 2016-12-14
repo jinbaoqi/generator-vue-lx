@@ -1,16 +1,26 @@
 {
-  "name": "test",
+  "name": "lx-multipage-vue",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "matt <matt@weiapp.com>",
-  "private": true,
+  "description": "来学多项目vue",
+  "author": "guojian <guojian@weiapp.com>",
+  "private": false,
+  "repository":{
+    "type" : "git",  
+     "url" : "https://github.com/guojianlan/lx-multipage-vue.git" 
+  },
   "scripts": {
     "dev": "node build/dev-server.js web",
-    "build": "node build/build.js"
+    "dev:web": "node build/dev-server.js web",
+    "dev:wx": "node build/dev-server.js wx",
+    "build": "node build/build.js web",
+    "build:web": "node build/build.js web",
+    "build:wx": "node build/build.js wx"
   },
   "dependencies": {
-    "glob": "7.1.1",
-    "vue": "2.1.4"
+    "axios": "0.15.3",
+    "vue": "2.1.5",
+    "vuex": "2.0.0",
+    "vuex-router-sync": "3.0.0"
   },
   "devDependencies": {
     "autoprefixer": "6.5.3",
@@ -28,6 +38,7 @@
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
     "function-bind": "1.1.0",
+    "glob": "7.1.1",
     "html-webpack-plugin": "2.24.1",
     "http-proxy-middleware": "0.17.3",
     "json-loader": "0.5.4",
@@ -37,10 +48,10 @@
     "semver": "5.3.0",
     "shelljs": "0.7.5",
     "url-loader": "0.5.7",
-    "vue": "2.1.4",
     "vue-loader": "10.0.2",
+    "vue-router": "2.1.1",
     "vue-style-loader": "1.0.0",
-    "vue-template-compiler": "2.1.4",
+    "vue-template-compiler": "2.1.5",
     "webpack": "1.14.0",
     "webpack-dev-middleware": "1.8.4",
     "webpack-hot-middleware": "2.13.2",

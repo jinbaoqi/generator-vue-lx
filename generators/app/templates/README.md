@@ -1,6 +1,6 @@
-# test
+# lx-multipage-vue
 
-> A Vue.js project
+> 来学多项目vue
 
 ## Build Setup
 
@@ -9,10 +9,8 @@
 npm install
 
 # serve with hot reload at localhost:8080
-npm run dev
+npm run dev:web
 
 # build for production with minification
-npm run build
+npm run build:web
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

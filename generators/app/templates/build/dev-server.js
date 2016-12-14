@@ -1,18 +1,19 @@
 require('./check-versions')()
 var config = require('../config')
-if (!process.env.NODE_ENV) process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
+if (!process.env.NODE_ENV) process.env.NODE_ENV = JSON.parse(config[config.moduleName+'dev'].env.NODE_ENV)
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var opn = require('opn')
+var fs=require('fs');
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var port = process.env.PORT || config[config.moduleName+'dev'].port
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
-var proxyTable = config.dev.proxyTable
+var proxyTable = config[config.moduleName+'dev'].proxyTable
 
 var app = express()
 var compiler = webpack(webpackConfig)
@@ -54,9 +55,9 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+var staticPath = path.posix.join(config[config.moduleName+'dev'].assetsPublicPath, config[config.moduleName+'dev'].assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
-
+app.use('/resource', express.static(path.join(__dirname,'../src/modules/'+config.moduleName+'Module/resource')))
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
